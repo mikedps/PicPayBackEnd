@@ -12,11 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PicPayBackEnd.Data\PicPayBackEnd.Data.csproj" />
     <ProjectReference Include="..\picpaybackend.domain\picpaybackend.domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

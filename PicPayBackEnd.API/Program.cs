@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using PicPayBackEnd.Data.Context;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +11,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<PicPayContext>(
+    option =>
+    {
+        var conexao = builder.Configuration.GetConnectionString("DefaultConnection");
+        option.UseSqlServer(conexao);
+    });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
