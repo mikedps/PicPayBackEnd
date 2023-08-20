@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PicPayBackEnd.Domain.Models
+namespace PicPayBackEnd.Domain.Entities
 {
     public class Transaction : Entity
     {

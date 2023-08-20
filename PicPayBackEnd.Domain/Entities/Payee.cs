@@ -1,19 +1,14 @@
 ﻿using PicPayBackEnd.Domain.Primitives;
 using PicPayBackEnd.Domain.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace PicPayBackEnd.Domain.Models
+namespace PicPayBackEnd.Domain.Entities
 {
-    public class Payer : Entity
+    public class Payee : Entity
     {
-        private Payer()
+        private Payee()
         {
         }
-        public Payer(User user)
+        private Payee(User user)
         {
             User = user;
             Balance = Money.Empty();
@@ -22,6 +17,14 @@ namespace PicPayBackEnd.Domain.Models
         public User User { get; private set; }
 
         public Money Balance { get; private set; }
+
+
+        public static Payee CreatePayee(User user)
+        {
+            return new Payee(user);
+        }
+
+
 
         public IList<Transaction> Transactions { get; private set; }
 

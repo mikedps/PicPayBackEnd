@@ -10,6 +10,11 @@ namespace PicPayBackEnd.Domain.ValueObjects
     public class Cpf : ValueObject
     {
         public string Value { get; private set; }
-        public Cpf(string value) => Value = value;
+        private Cpf(string value)
+        {
+            Value = value;
+        }
+
+        public static Cpf CreateCpf(string value) => new Cpf(value);
     }
 }

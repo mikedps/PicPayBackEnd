@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PicPayBackEnd.Domain.Models;
+using PicPayBackEnd.Domain.Entities;
 
 namespace PicPayBackEnd.Data.Configuration
 {

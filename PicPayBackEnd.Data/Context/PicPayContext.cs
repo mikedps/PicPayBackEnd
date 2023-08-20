@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PicPayBackEnd.Data.Configuration;
-using PicPayBackEnd.Domain.Models;
+using PicPayBackEnd.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
