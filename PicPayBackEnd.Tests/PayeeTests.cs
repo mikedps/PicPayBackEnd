@@ -16,7 +16,8 @@ namespace PicPayBackEnd.Tests
         [Fact(DisplayName ="Payee: Not Empty")]
         public void Payee_ID_Must_Not_Be_Empty()
         {
-            var payee = Payee.CreatePayee(new User("Mike", "Pires", new Cpf("36646320870"), new Email("mikedps@gmail.com")));
+            var payee = Payee.CreatePayee(User.CreateUser("Mike", "Pires", Cpf.CreateCpf("36646320870"), 
+                Email.CreateEmail("mikedps@gmail.com"))); ;
 
             var result =  _validator.Validate(payee);
 

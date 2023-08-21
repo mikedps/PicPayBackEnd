@@ -10,7 +10,7 @@ namespace PicPayBackEnd.Domain.Entities
     public class User 
     {
         private User() { }
-        private User(string? name, string? surename, Cpf? cpf, Email? email)
+        private User(string? name, string? surename, Cpf cpf, Email email)
         {
             Name = name;
             Surename = surename;
@@ -22,11 +22,11 @@ namespace PicPayBackEnd.Domain.Entities
 
         public string? Surename { get; private set; }
 
-        public Cpf? Cpf { get; private set; }
+        public Cpf Cpf { get; private set; }
 
-        public Email? Email { get; private set; }
+        public Email Email { get; private set; }
         
-        public static User CreateUser(string? name, string? surename, Cpf? cpf, Email? email)
+        public static User CreateUser(string? name, string? surename, Cpf cpf, Email email)
         {
             return new User(name, surename, cpf, email);
         }
