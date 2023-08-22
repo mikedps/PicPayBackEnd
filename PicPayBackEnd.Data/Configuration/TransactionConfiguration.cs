@@ -12,13 +12,27 @@ namespace PicPayBackEnd.Data.Configuration
 
             builder.Property(x => x.Date).HasDefaultValueSql("getDate()");
 
+            builder.Property(x => x.FkPayer).IsRequired();
+
+            builder.Property(x => x.FkPayee).IsRequired();
+
             builder.OwnsOne(x => x.Amount, amount =>
             {
-                amount.Property(a => a.Value).HasColumnName("Amount");
+                amount.Property(a => a.Value).IsRequired().HasColumnName("Amount");
             });
 
-            builder.HasOne(x => x.Payer).WithMany(x => x.Transactions).HasForeignKey(x => x.FkPayer);
-            builder.HasOne(x => x.Payee).WithMany(x => x.Transactions).HasForeignKey(x => x.FkPayee);
+            builder
+            .HasOne(x => x.Payer)
+            .WithMany(x => x.PayerTransactions)
+            .HasForeignKey(x => x.FkPayer)
+            .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+            .HasOne(x => x.Payee)
+            .WithMany(x => x.PayeeTransactions)
+            .HasForeignKey(x => x.FkPayee)
+            .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
+

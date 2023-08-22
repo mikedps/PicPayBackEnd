@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace PicPayBackEnd.Data.Services
 {
-    public interface IPayerService
+    public interface ITransactionService
     {
-        Result CreatePayer(PayerDTO request);
+        Result CreateTransaction(TransactionDTO request);
     }
 }

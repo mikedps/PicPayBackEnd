@@ -12,8 +12,7 @@ namespace PicPayBackEnd.Data.Context
     public class PicPayContext : DbContext
     {
         public PicPayContext(){ }
-        public DbSet<Payee> Payees { get; set; }
-        public DbSet<Payer> Payers { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
 
         public PicPayContext(DbContextOptions options) : base(options) { }
@@ -28,8 +27,7 @@ namespace PicPayBackEnd.Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new PayeeConfiguration());
-            modelBuilder.ApplyConfiguration(new PayerConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionConfiguration());
         }
     }

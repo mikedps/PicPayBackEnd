@@ -6,6 +6,7 @@ using PicPayBackEnd.Data.Repositories;
 using PicPayBackEnd.Data.Services;
 using PicPayBackEnd.Domain.Entities;
 using PicPayBackEnd.Domain.Validation;
+using PicPayBackEnd.Domain.Validation.ValueObjects;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,9 +25,11 @@ builder.Services.AddDbContext<PicPayContext>(
         option.UseSqlServer(conexao);
     });
 
-builder.Services.AddScoped<IValidator<Payer>, PayerValidation>();
-builder.Services.AddScoped<IPayerService, PayerService>();
-builder.Services.AddScoped<IPayerRepository, PayerRepository>();
+builder.Services.AddScoped<IValidator<User>, UserValidator>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PicPayBackEnd.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,12 +11,12 @@ namespace PicPayBackEnd.Domain.Utils
     {
         public const int TamanhoCpf = 11;
 
-        public static bool Validar(string cpf)
+        public static bool Validar(string Cpf)
         {
-            var cpfNumeros = Utils.ApenasNumeros(cpf);
+            var CpfNumeros = Utils.ApenasNumeros(Cpf);
 
-            if (!TamanhoValido(cpfNumeros)) return false;
-            return !TemDigitosRepetidos(cpfNumeros) && TemDigitosValidos(cpfNumeros);
+            if (!TamanhoValido(CpfNumeros)) return false;
+            return !TemDigitosRepetidos(CpfNumeros) && TemDigitosValidos(CpfNumeros);
         }
 
         private static bool TamanhoValido(string valor)
@@ -179,5 +180,23 @@ namespace PicPayBackEnd.Domain.Utils
             }
             return onlyNumber.Trim();
         }
+
+        public static bool IsValidDocument(string documento)
+        {
+            return CpfValidacao.Validar(documento) || CnpjValidacao.Validar(documento);
+
+        }
+        public static DocumentType GetDocumentType(string documento)
+        {
+            if (CpfValidacao.Validar(documento))
+                return DocumentType.CPF;
+
+            if (CnpjValidacao.Validar(documento))
+                return DocumentType.CPNJ;
+
+            return DocumentType.None;
+
+        }
+
     }
 }

@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PicPayBackEnd.Domain.ValueObjects
+namespace PicPayBackEnd.Domain.Enums
 {
-    public enum UserType
+    public enum DocumentType
     {
-        Payee = 1,
-        Payer = 2
+        None = 0,
+        CPF = 1,
+        CPNJ = 2
     }
 }

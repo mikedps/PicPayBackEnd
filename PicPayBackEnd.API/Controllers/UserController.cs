@@ -7,19 +7,19 @@ namespace PicPayBackEnd.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PayerController : ControllerBase
+    public class UserController : ControllerBase
     {
-        private readonly IPayerService _payerService;
+        private readonly IUserService _userService;
 
-        public PayerController(IPayerService payerService)
+        public UserController(IUserService userService)
         {
-            _payerService = payerService;
+            _userService = userService;
         }
 
         [HttpPost]
-        public IActionResult Post(PayerDTO data)
+        public IActionResult Post(UserDTO data)
         {
-            var result = _payerService.CreatePayer(data);
+            var result = _userService.CreateUser(data);
             
             if(result.Success)
             {

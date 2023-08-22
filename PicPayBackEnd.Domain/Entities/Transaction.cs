@@ -1,24 +1,55 @@
-﻿using PicPayBackEnd.Domain.Primitives;
+﻿using PicPayBackEnd.Domain.Exceptions;
+using PicPayBackEnd.Domain.Primitives;
 using PicPayBackEnd.Domain.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PicPayBackEnd.Domain.Entities
 {
     public class Transaction : Entity
     {
-        public Guid Id { get; private set; }
+
+        private Transaction() { }
+        private Transaction(User payer, User payee, Money amount)
+        {
+            Payer = payer;
+            Payee = payee;
+            Amount = amount;
+            Date = DateTime.Now;            
+        }
         public DateTime Date { get; private set; }
-        public Payee Payee { get; private set; }
-        public Payer Payer { get; private set; }
-
         public Money Amount { get; private set; }
-
         public Guid FkPayee { get; private set; }
-
         public Guid FkPayer { get; private set; }
+        public User Payee { get; private set; }
+        public User Payer { get; private set; }
+
+
+
+        public static Transaction Create(User payer, User payee, Money amount)
+        {
+            if(payer.UserType == Enums.UserType.Lojista)
+            {
+                throw new TransactionException("Lojista não pode realizar pagamento");
+            }
+
+            if (amount.Value <= 0)
+            {
+                throw new TransactionException("Valor da Transação não pode ser menor que zero");
+            }
+
+            if(payer.Balance.Value < amount.Value)
+            {
+                throw new TransactionException("Saldo insuficiente");
+            }
+
+            var saldoPayer = payer.Balance.Value - amount.Value;
+            var saldoPayee = payee.Balance.Value + amount.Value;
+
+            payee.SetBalance(Money.Create(saldoPayee));
+            payer.SetBalance(Money.Create(saldoPayer));
+
+
+            return new Transaction(payer, payee, amount);
+            
+        }
     }
 }
