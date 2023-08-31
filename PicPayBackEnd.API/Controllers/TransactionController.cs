@@ -5,7 +5,7 @@ using PicPayBackEnd.Data.Services;
 
 namespace PicPayBackEnd.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/transaction")]
     [ApiController]
     public class TransactionController : ControllerBase
     {
@@ -15,10 +15,10 @@ namespace PicPayBackEnd.API.Controllers
             _transactionService = transactionService;
         }
 
-        [HttpPost]   
-        public ActionResult Post(TransactionDTO request)
+        [HttpPost("create")]   
+        public async Task<ActionResult> Post(TransactionDTO request)
         {
-            var resultado = _transactionService.CreateTransaction(request);
+            var resultado = await _transactionService.CreateTransaction(request);
 
             if(resultado.Success)
             {
@@ -30,10 +30,5 @@ namespace PicPayBackEnd.API.Controllers
             }
         }
 
-        [HttpGet] 
-        public ActionResult Get() 
-        {
-            return Ok("Ok");
-        }
     }
 }

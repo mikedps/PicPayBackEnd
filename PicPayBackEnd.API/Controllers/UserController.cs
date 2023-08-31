@@ -5,7 +5,7 @@ using PicPayBackEnd.Data.Services;
 
 namespace PicPayBackEnd.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -16,10 +16,10 @@ namespace PicPayBackEnd.API.Controllers
             _userService = userService;
         }
 
-        [HttpPost]
-        public IActionResult Post(UserDTO data)
+        [HttpPost("create")]
+        public async Task<ActionResult> Post(UserDTO data)
         {
-            var result = _userService.CreateUser(data);
+            var result = await _userService.CreateUser(data);
             
             if(result.Success)
             {
@@ -29,6 +29,13 @@ namespace PicPayBackEnd.API.Controllers
             {
                 return BadRequest(result);
             }
+        }
+
+        [HttpGet("users")]
+        public async Task<ActionResult> GetUsers()
+        {
+            return Ok(await _userService.GetAllUsers());
+            
         }
     }
 }

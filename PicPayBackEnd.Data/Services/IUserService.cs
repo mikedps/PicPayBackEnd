@@ -9,6 +9,8 @@ namespace PicPayBackEnd.Data.Services
 {
     public interface IUserService
     {
-        Result CreateUser(UserDTO request);
+        Task<Result> CreateUser(UserDTO request);
+
+        Task<List<UserDTO>> GetAllUsers();
     }
 }

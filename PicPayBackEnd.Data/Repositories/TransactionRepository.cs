@@ -1,4 +1,5 @@
-﻿using PicPayBackEnd.Data.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using PicPayBackEnd.Data.Context;
 using PicPayBackEnd.Data.DTOs;
 using PicPayBackEnd.Domain.Entities;
 using System;
@@ -17,17 +18,17 @@ namespace PicPayBackEnd.Data.Repositories
             _context = context;
         }
 
-        public bool Create(Transaction transaction)
+        public async Task<bool> CreateAsync(Transaction transaction)
         {
-            _context.Transactions.Add(transaction);
+            await _context.Transactions.AddAsync(transaction);
 
-            return _context.SaveChanges() > 0;
+            return await _context.SaveChangesAsync() > 0;
         }
 
 
-        public IEnumerable<TransactionDTO> GetTransactions()
+        public async Task<IEnumerable<TransactionDTO>> GetTransactionsAsync()
         {
-            return _context.Transactions
+            return await _context.Transactions
                 .Take(50)
                 .Select(x => new TransactionDTO
             {
@@ -37,7 +38,7 @@ namespace PicPayBackEnd.Data.Repositories
                 Payer = x.FkPayer
             })
             .OrderByDescending(x=>x.Created)
-            .ToList();
+            .ToListAsync();
         }
     }
 }

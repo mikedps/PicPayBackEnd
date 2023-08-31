@@ -10,9 +10,9 @@ namespace PicPayBackEnd.Data.Repositories
 {
     public interface ITransactionRepository
     {
-        bool Create(Transaction transaction);
+        Task<bool> CreateAsync(Transaction transaction);
 
-        IEnumerable<TransactionDTO> GetTransactions();
+        Task<IEnumerable<TransactionDTO>> GetTransactionsAsync();
 
     }
 }

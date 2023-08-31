@@ -10,17 +10,20 @@ namespace PicPayBackEnd.Data.DTOs
 {
     public class UserDTO
     {
-        public int ID { get; set; }
+        public Guid ID { get; set; }
 
         public UserType UserType { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public string Surname { get;set; }
+        public string? Surname { get;set; }
+
+        public string FullName => $"{ Name} {Surname}";
 
         public string DocumentID { get; set; }
 
-        public string Email { get; set; }   
+        public string Email { get; set; }
+
 
     }
 }

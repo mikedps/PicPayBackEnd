@@ -1,16 +1,19 @@
-﻿using PicPayBackEnd.Domain.Entities;
+﻿using PicPayBackEnd.Data.DTOs;
+using PicPayBackEnd.Domain.Entities;
 using PicPayBackEnd.Domain.ValueObjects;
 
 namespace PicPayBackEnd.Data.Repositories
 {
     public interface IUserRepository
     {
-        void Create(User user);
+        Task CreateAsync(User user);
 
-        User? GetById(Guid id); 
+        Task<User?> GetByIdAsync(Guid id);
 
-        bool DocumentAlreadyExists(DocumentID document);
+        Task<List<UserDTO>> GetAllUsersAsync();
 
-        bool EmailAlreadyExists(Email email);
+        Task<bool> DocumentAlreadyExistsAsync(DocumentID document);
+
+        Task<bool> EmailAlreadyExistsAsync(Email email);
     }
 }

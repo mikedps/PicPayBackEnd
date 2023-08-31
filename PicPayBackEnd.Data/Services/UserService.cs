@@ -2,6 +2,7 @@
 using PicPayBackEnd.Data.DTOs;
 using PicPayBackEnd.Data.Repositories;
 using PicPayBackEnd.Domain.Entities;
+using PicPayBackEnd.Domain.Utils;
 using PicPayBackEnd.Domain.ValueObjects;
 
 
@@ -19,8 +20,10 @@ namespace PicPayBackEnd.Data.Services
             _validator = validator;
         }
 
-        public Result CreateUser(UserDTO request)
+        public async Task<Result> CreateUser(UserDTO request)
         {
+            request.DocumentID =  Utils.ApenasNumeros(request.DocumentID);
+
             var documento = DocumentID.CreateDocumentID(request.DocumentID);
             var email = Email.CreateEmail(request.Email);
             var user = User.CreateUser(request.Name, request.Surname, request.UserType, documento,email);
@@ -37,11 +40,11 @@ namespace PicPayBackEnd.Data.Services
                 return result;
             }
 
-            if (_repository.DocumentAlreadyExists(documento))
+            if (await _repository.DocumentAlreadyExistsAsync(documento))
             {
                 result.AddError($"Document {documento.Value} already been used");
             }
-            if (_repository.EmailAlreadyExists(email))
+            if (await _repository.EmailAlreadyExistsAsync(email))
             {
                 result.AddError($"Email {email.Value} already been used");
             }
@@ -51,10 +54,16 @@ namespace PicPayBackEnd.Data.Services
                 return result;
             }
 
-            _repository.Create(user);
+            await _repository.CreateAsync(user);
 
             return result;
 
+        }
+
+        public async Task<List<UserDTO>> GetAllUsers()
+        {
+            var users = await _repository.GetAllUsersAsync();
+            return users;
         }
     }
 }

@@ -9,6 +9,6 @@ namespace PicPayBackEnd.Data.Services
 {
     public interface ITransactionService
     {
-        Result CreateTransaction(TransactionDTO request);
+        Task<Result> CreateTransaction(TransactionDTO request);
     }
 }

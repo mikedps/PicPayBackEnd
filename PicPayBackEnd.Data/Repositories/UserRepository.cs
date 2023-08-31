@@ -1,4 +1,5 @@
-﻿using Microsoft.Identity.Client;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using PicPayBackEnd.Data.Context;
 using PicPayBackEnd.Data.DTOs;
 using PicPayBackEnd.Domain.Entities;
@@ -21,27 +22,45 @@ namespace PicPayBackEnd.Data.Repositories
         }
 
 
-        public void Create(User user)
+        public async Task CreateAsync(User user)
         {
-            _context.Set<User>().Add(user);
+            await _context.Set<User>().AddAsync(user);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public bool DocumentAlreadyExists(DocumentID document)
+        public async Task<bool> DocumentAlreadyExistsAsync(DocumentID document)
         {
-            var item = _context.Users.FirstOrDefault();
-            return _context.Users.Any(x => x.DocumentID.Value == document.Value);
+            return await _context.Users.AnyAsync(x => x.DocumentID.Value == document.Value);
         }
 
-        public bool EmailAlreadyExists(Email email)
+        public async Task<bool> EmailAlreadyExistsAsync(Email email)
         {
-            return _context.Users.Any(x => x.Email.Value == email.Value);
+            return await _context.Users.AnyAsync(x => x.Email.Value == email.Value);
         }
 
-        public User? GetById(Guid id)
+
+
+        public async Task<List<UserDTO>> GetAllUsersAsync()
         {
-            return _context.Users.FirstOrDefault(x => x.Id == id);
+            return await _context.Users
+                .Select(x => new UserDTO
+            {
+                DocumentID = x.DocumentID.Value,
+                ID = x.Id,
+                Email = x.Email.Value,
+                Name = x.Name,
+                Surname = x.Surname,
+                UserType = x.UserType
+            }).Take(30)
+            .ToListAsync();
         }
+
+        public async Task<User?> GetByIdAsync(Guid id)
+        {
+            return await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+
     }
 }

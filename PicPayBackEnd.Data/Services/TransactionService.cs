@@ -22,11 +22,11 @@ namespace PicPayBackEnd.Data.Services
             _userRepository = userRepository;
         }
 
-        public Result CreateTransaction(TransactionDTO request)
+        public async Task<Result> CreateTransaction(TransactionDTO request)
         {
             var result = new Result();
-            var payee = _userRepository.GetById(request.Payee);
-            var payer = _userRepository.GetById(request.Payer);
+            var payee = await _userRepository.GetByIdAsync(request.Payee);
+            var payer = await _userRepository.GetByIdAsync(request.Payer);
 
             if(payee == null || payer == null)
             {
@@ -38,14 +38,12 @@ namespace PicPayBackEnd.Data.Services
             {
                 var transaction = Transaction.Create(payer, payee, Money.Create(request.Amount));
 
-                _repository.Create(transaction);
-
+                await _repository.CreateAsync(transaction);
             }
             catch(TransactionException ex)
             {
                 result.AddError(ex.Message);
             }
-
 
             return result;
         }
