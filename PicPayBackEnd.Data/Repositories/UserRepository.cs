@@ -41,7 +41,7 @@ namespace PicPayBackEnd.Data.Repositories
 
 
 
-        public async Task<List<UserDTO>> GetAllUsersAsync()
+      /*  public async Task<List<UserDTO>> GetAllUsersAsync()
         {
             return await _context.Users
                 .Select(x => new UserDTO
@@ -55,6 +55,7 @@ namespace PicPayBackEnd.Data.Repositories
             }).Take(30)
             .ToListAsync();
         }
+      */
 
         public async Task<User?> GetByIdAsync(Guid id)
         {

@@ -11,7 +11,9 @@ using System.Threading.Tasks;
 namespace PicPayBackEnd.Data.Repositories
 {
     public class TransactionRepository : ITransactionRepository
-    {        private readonly PicPayContext _context;
+    {
+        
+        private readonly PicPayContext _context;
 
         public TransactionRepository(PicPayContext context)
         {
@@ -26,7 +28,7 @@ namespace PicPayBackEnd.Data.Repositories
         }
 
 
-        public async Task<IEnumerable<TransactionDTO>> GetTransactionsAsync()
+      /*  public async Task<IEnumerable<TransactionDTO>> GetTransactionsAsync()
         {
             return await _context.Transactions
                 .Take(50)
@@ -40,5 +42,6 @@ namespace PicPayBackEnd.Data.Repositories
             .OrderByDescending(x=>x.Created)
             .ToListAsync();
         }
+      */
     }
 }

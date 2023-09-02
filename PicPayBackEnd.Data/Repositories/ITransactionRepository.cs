@@ -12,7 +12,7 @@ namespace PicPayBackEnd.Data.Repositories
     {
         Task<bool> CreateAsync(Transaction transaction);
 
-        Task<IEnumerable<TransactionDTO>> GetTransactionsAsync();
+       // Task<IEnumerable<TransactionDTO>> GetTransactionsAsync();
 
     }
 }

@@ -1,34 +1,31 @@
-﻿using PicPayBackEnd.Data.DTOs;
+﻿using MediatR;
+using PicPayBackEnd.Data.Commands;
+using PicPayBackEnd.Data.DTOs;
 using PicPayBackEnd.Data.Repositories;
 using PicPayBackEnd.Domain.Entities;
 using PicPayBackEnd.Domain.Exceptions;
 using PicPayBackEnd.Domain.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace PicPayBackEnd.Data.Services
+namespace PicPayBackEnd.Data.Handlers
 {
-    public class TransactionService : ITransactionService
+    public class CreateTransactionCommandHandler : IRequestHandler<CreateTransactionCommand, Result>
     {
         private readonly ITransactionRepository _repository;
         private readonly IUserRepository _userRepository;
 
-        public TransactionService(ITransactionRepository repository, IUserRepository userRepository)
+        public CreateTransactionCommandHandler(ITransactionRepository repository, IUserRepository userRepository)
         {
             _repository = repository;
             _userRepository = userRepository;
         }
 
-        public async Task<Result> CreateTransaction(TransactionDTO request)
+        public async Task<Result> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
         {
             var result = new Result();
             var payee = await _userRepository.GetByIdAsync(request.Payee);
             var payer = await _userRepository.GetByIdAsync(request.Payer);
 
-            if(payee == null || payer == null)
+            if (payee == null || payer == null)
             {
                 result.AddError("A valid Payee and Payer is required.");
                 return result;
@@ -40,12 +37,13 @@ namespace PicPayBackEnd.Data.Services
 
                 await _repository.CreateAsync(transaction);
             }
-            catch(TransactionException ex)
+            catch (TransactionException ex)
             {
                 result.AddError(ex.Message);
             }
 
             return result;
+
         }
     }
 }

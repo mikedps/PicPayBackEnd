@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using PicPayBackEnd.Data.DTOs;
-using PicPayBackEnd.Data.Services;
+using PicPayBackEnd.Data.Commands;
 
 namespace PicPayBackEnd.API.Controllers
 {
@@ -9,17 +8,17 @@ namespace PicPayBackEnd.API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly ISender _mediatr;
 
-        public UserController(IUserService userService)
+        public UserController(ISender mediatr)
         {
-            _userService = userService;
+            _mediatr = mediatr;
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult> Post(UserDTO data)
+        public async Task<ActionResult> Post(CreateUserCommand request)
         {
-            var result = await _userService.CreateUser(data);
+            var result = await _mediatr.Send(request);
             
             if(result.Success)
             {
@@ -31,11 +30,15 @@ namespace PicPayBackEnd.API.Controllers
             }
         }
 
+        /*
+
         [HttpGet("users")]
         public async Task<ActionResult> GetUsers()
         {
             return Ok(await _userService.GetAllUsers());
             
         }
+        */
+
     }
 }

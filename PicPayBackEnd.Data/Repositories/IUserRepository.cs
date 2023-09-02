@@ -10,7 +10,6 @@ namespace PicPayBackEnd.Data.Repositories
 
         Task<User?> GetByIdAsync(Guid id);
 
-        Task<List<UserDTO>> GetAllUsersAsync();
 
         Task<bool> DocumentAlreadyExistsAsync(DocumentID document);
 

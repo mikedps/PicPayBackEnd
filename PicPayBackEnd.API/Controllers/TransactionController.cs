@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PicPayBackEnd.Data.Commands;
 using PicPayBackEnd.Data.DTOs;
-using PicPayBackEnd.Data.Services;
 
 namespace PicPayBackEnd.API.Controllers
 {
@@ -9,16 +10,17 @@ namespace PicPayBackEnd.API.Controllers
     [ApiController]
     public class TransactionController : ControllerBase
     {
-        private readonly ITransactionService _transactionService;
-        public TransactionController(ITransactionService transactionService)
+        private readonly ISender _mediatr;
+
+        public TransactionController(ISender mediatr)
         {
-            _transactionService = transactionService;
+            _mediatr = mediatr;
         }
 
         [HttpPost("create")]   
-        public async Task<ActionResult> Post(TransactionDTO request)
+        public async Task<ActionResult> Post(CreateTransactionCommand request)
         {
-            var resultado = await _transactionService.CreateTransaction(request);
+            var resultado = await _mediatr.Send(request);
 
             if(resultado.Success)
             {
