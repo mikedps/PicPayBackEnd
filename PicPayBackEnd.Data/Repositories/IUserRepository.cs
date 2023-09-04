@@ -6,7 +6,7 @@ namespace PicPayBackEnd.Data.Repositories
 {
     public interface IUserRepository
     {
-        Task CreateAsync(User user);
+        Task<Guid> CreateAsync(User user);
 
         Task<User?> GetByIdAsync(Guid id);
 

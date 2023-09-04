@@ -25,6 +25,15 @@ namespace PicPayBackEnd.Data.Handlers
             var payee = await _userRepository.GetByIdAsync(request.Payee);
             var payer = await _userRepository.GetByIdAsync(request.Payer);
 
+
+            if(request.Payee == request.Payer)
+            {
+                result.AddError("Payee and Payer must not be the same.");
+                return result;
+             }
+
+           
+
             if (payee == null || payer == null)
             {
                 result.AddError("A valid Payee and Payer is required.");
@@ -35,7 +44,8 @@ namespace PicPayBackEnd.Data.Handlers
             {
                 var transaction = Transaction.Create(payer, payee, Money.Create(request.Amount));
 
-                await _repository.CreateAsync(transaction);
+                result.SetID(await _repository.CreateAsync(transaction));
+
             }
             catch (TransactionException ex)
             {

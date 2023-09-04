@@ -16,15 +16,18 @@ namespace PicPayBackEnd.Data.DTOs
         {
             Messages = messages;
         }
-        
+        public Guid ID { get; protected set; }
+        public IList<string> Messages { get; set; } = new List<string>();
+
+
         public bool Success => Valid;
 
         [JsonIgnore]
         public bool Valid => !Messages.Any();
-        public IList<string> Messages { get; set; } = new List<string>();
-
 
         public void AddError(string message) => Messages.Add(message);
+
+        public void SetID(Guid id) => ID = id;
         
     }
 }

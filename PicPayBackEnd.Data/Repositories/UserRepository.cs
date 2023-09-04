@@ -22,11 +22,13 @@ namespace PicPayBackEnd.Data.Repositories
         }
 
 
-        public async Task CreateAsync(User user)
+        public async Task<Guid> CreateAsync(User user)
         {
             await _context.Set<User>().AddAsync(user);
 
             await _context.SaveChangesAsync();
+
+            return user.Id;
         }
 
         public async Task<bool> DocumentAlreadyExistsAsync(DocumentID document)

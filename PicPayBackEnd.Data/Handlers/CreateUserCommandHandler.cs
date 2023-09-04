@@ -24,9 +24,9 @@ namespace PicPayBackEnd.Data.Handlers
         {
             request.DocumentID = Utils.ApenasNumeros(request.DocumentID);
 
-            var documento = DocumentID.CreateDocumentID(request.DocumentID);
-            var email = Email.CreateEmail(request.Email);
-            var user = User.CreateUser(request.Name, request.Surname, request.UserType, documento, email);
+            var documento = DocumentID.Create(request.DocumentID);
+            var email = Email.Create(request.Email);
+            var user = User.Create(request.Name, request.Surname, request.UserType, documento, email);
 
             var validate = _validator.Validate(user);
 
@@ -53,9 +53,7 @@ namespace PicPayBackEnd.Data.Handlers
             {
                 return result;
             }
-
-            await _repository.CreateAsync(user);
-
+            result.SetID(await _repository.CreateAsync(user));
             return result;
 
 

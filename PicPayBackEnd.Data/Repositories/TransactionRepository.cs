@@ -20,11 +20,13 @@ namespace PicPayBackEnd.Data.Repositories
             _context = context;
         }
 
-        public async Task<bool> CreateAsync(Transaction transaction)
+        public async Task<Guid> CreateAsync(Transaction transaction)
         {
             await _context.Transactions.AddAsync(transaction);
 
-            return await _context.SaveChangesAsync() > 0;
+            await _context.SaveChangesAsync();
+
+            return transaction.Id;
         }
 
 

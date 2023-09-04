@@ -19,10 +19,10 @@ namespace PicPayBackEnd.Tests
 
         public TransactionTests()
         {
-            var doc = DocumentID.CreateDocumentID("36646320870");
-            var email = Email.CreateEmail("mikedps@gmail.com");
-            _validPayer = User.CreateUser("Mike", "Pires", UserType.Padrao, doc, email);
-            _validPayee = User.CreateUser("Thais", "Del", UserType.Padrao, doc, email);
+            var doc = DocumentID.Create("36646320870");
+            var email = Email.Create("mikedps@gmail.com");
+            _validPayer = User.Create("Mike", "Pires", UserType.Padrao, doc, email);
+            _validPayee = User.Create("Thais", "Del", UserType.Padrao, doc, email);
         }
 
         [Fact(DisplayName ="Create Transaction")]

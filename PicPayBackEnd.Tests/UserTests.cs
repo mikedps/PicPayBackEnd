@@ -32,7 +32,7 @@ namespace PicPayBackEnd.Tests
         [InlineData("")]
         public void User__Create_User_Must_Have_Valid_DocumentID(string documento)
         {
-            var doc = DocumentID.CreateDocumentID(documento);
+            var doc = DocumentID.Create(documento);
 
             var resposta = _validator.Validate(doc);
 
@@ -46,7 +46,7 @@ namespace PicPayBackEnd.Tests
         [InlineData("36646320870")]
         public void User__Create_User_Must_Have_CPF(string documento)
         {
-            var doc = DocumentID.CreateDocumentID(documento);
+            var doc = DocumentID.Create(documento);
             Assert.True(doc.Type == Domain.Enums.DocumentType.CPF);
         }
 
@@ -55,7 +55,7 @@ namespace PicPayBackEnd.Tests
         [InlineData("15.765.064/0001-50")]
         public void User__Create_User_Must_Have_CNPJ(string documento)
         {
-            var doc = DocumentID.CreateDocumentID(documento);
+            var doc = DocumentID.Create(documento);
             Assert.True(doc.Type == Domain.Enums.DocumentType.CPNJ);
         }
 
@@ -65,16 +65,16 @@ namespace PicPayBackEnd.Tests
         [InlineData("9092049439")]
         public void User__Create_User_Must_Have_NONE(string documento)
         {
-            var doc = DocumentID.CreateDocumentID(documento);
+            var doc = DocumentID.Create(documento);
             Assert.True(doc.Type == Domain.Enums.DocumentType.None);
         }
 
         [Fact(DisplayName="Usuário Existente: Não pode ter saldo negativo")]
         public void User__Must_Not_Have_Negative_Balance()
         {
-            var doc = DocumentID.CreateDocumentID("36646320870");
-            var email = Email.CreateEmail("mikedps@gmail.com");
-            var validPayer = User.CreateUser("Thais", "Del", UserType.Padrao, doc, email);
+            var doc = DocumentID.Create("36646320870");
+            var email = Email.Create("mikedps@gmail.com");
+            var validPayer = User.Create("Thais", "Del", UserType.Padrao, doc, email);
 
             validPayer.SetBalance(Money.Create(-300M));
 

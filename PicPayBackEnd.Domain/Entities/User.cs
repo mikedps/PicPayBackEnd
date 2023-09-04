@@ -1,4 +1,5 @@
 ﻿using PicPayBackEnd.Domain.Enums;
+using PicPayBackEnd.Domain.Events;
 using PicPayBackEnd.Domain.Primitives;
 using PicPayBackEnd.Domain.ValueObjects;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PicPayBackEnd.Domain.Entities
 {
-    public class User : Entity
+    public class User : AggregateRoot
     {
         private User() { }
         private User(string? name, string? surname, UserType userType, DocumentID documentID, Email email)
@@ -21,7 +22,6 @@ namespace PicPayBackEnd.Domain.Entities
             Email = email;
             Balance = Money.Empty;
         }
-
 
         public string? Name { get; private set; }
 
@@ -35,16 +35,6 @@ namespace PicPayBackEnd.Domain.Entities
         
         public Money Balance { get; private set; }
 
-        public static User CreateUser(string? name, 
-            string? surname, 
-            UserType userType, 
-            DocumentID documentID, 
-            Email email)
-        {
-            return new User(name, surname, userType, documentID, email);
-        }
-
-
         public void SetUserType(UserType userType) => UserType = userType;
 
         public void SetBalance(Money balance) => Balance = balance;
@@ -52,6 +42,21 @@ namespace PicPayBackEnd.Domain.Entities
         public IList<Transaction> PayeeTransactions { get; private set; }
 
         public IList<Transaction> PayerTransactions { get; private set; }
+
+        public static User Create(string? name,
+            string? surname,
+            UserType userType,
+            DocumentID documentID,
+            Email email)
+        {
+            var user = new User(name, surname, userType, documentID, email);
+
+            user.RaiseEvent(new UserCreatedEvent(user));
+
+            return user;
+        }
+
+
 
 
     }

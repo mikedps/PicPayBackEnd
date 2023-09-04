@@ -1,10 +1,11 @@
-﻿using PicPayBackEnd.Domain.Exceptions;
+﻿using PicPayBackEnd.Domain.Events;
+using PicPayBackEnd.Domain.Exceptions;
 using PicPayBackEnd.Domain.Primitives;
 using PicPayBackEnd.Domain.ValueObjects;
 
 namespace PicPayBackEnd.Domain.Entities
 {
-    public class Transaction : Entity
+    public class Transaction : AggregateRoot
     {
 
         private Transaction() { }
@@ -48,7 +49,11 @@ namespace PicPayBackEnd.Domain.Entities
             payer.SetBalance(Money.Create(saldoPayer));
 
 
-            return new Transaction(payer, payee, amount);
+            var transaction = new Transaction(payer, payee, amount);
+
+            transaction.RaiseEvent(new TransactionCreatedEvent(transaction));
+
+            return transaction;
             
         }
     }

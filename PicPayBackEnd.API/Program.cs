@@ -1,6 +1,7 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using PicPayBackEnd.Data.Context;
+using PicPayBackEnd.Data.Interceptors;
 using PicPayBackEnd.Data.Repositories;
 using PicPayBackEnd.Domain.Entities;
 using PicPayBackEnd.Domain.Validation.ValueObjects;
@@ -14,17 +15,21 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
-
-builder.Services.AddDbContext<PicPayContext>(
-    option =>
-    {
-        var conexao = builder.Configuration.GetConnectionString("DefaultConnection");
-        option.UseSqlServer(conexao);
-    });
-
+builder.Services.AddSingleton<PublishDomainEventsInterceptor>();
 builder.Services.AddScoped<IValidator<User>, UserValidator>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddLogging();
+
+builder.Services.AddDbContext<PicPayContext>(
+    (sp,option) =>
+    {
+        var interceptor = sp.GetRequiredService<PublishDomainEventsInterceptor>();
+        var conexao = builder.Configuration.GetConnectionString("DefaultConnection");
+        option.UseSqlServer(conexao)
+        .AddInterceptors(interceptor);
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

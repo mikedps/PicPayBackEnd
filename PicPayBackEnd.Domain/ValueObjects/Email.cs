@@ -12,7 +12,7 @@ namespace PicPayBackEnd.Domain.ValueObjects
         public string Value { get; private set; }
         private Email(string value) => Value = value;
 
-        public static Email CreateEmail(string value) => new Email(value);
+        public static Email Create(string value) => new Email(value);
 
     }
 }

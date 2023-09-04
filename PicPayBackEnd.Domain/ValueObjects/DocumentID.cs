@@ -19,6 +19,6 @@ namespace PicPayBackEnd.Domain.ValueObjects
             Type = Utils.Utils.GetDocumentType(Value);
         }
 
-        public static DocumentID CreateDocumentID(string value) => new DocumentID(value);
+        public static DocumentID Create(string value) => new DocumentID(value);
     }
 }

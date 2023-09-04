@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PicPayBackEnd.Data.Configuration;
 using PicPayBackEnd.Domain.Entities;
+using PicPayBackEnd.Domain.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,8 @@ namespace PicPayBackEnd.Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Ignore<List<IDomainEvent>>();
+            
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionConfiguration());
         }
